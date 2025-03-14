@@ -1,0 +1,8 @@
+spec:
+  type: NodePort
+  ports:
+  - name: http-web
+    nodePort: 31624
+    port: 80
+    protocol: TCP
+    targetPort: 3000

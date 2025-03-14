@@ -1,0 +1,33 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: idrac-exporter-monitor
+  namespace: idrac-exporter
+  labels:
+    app.kubernetes.io/name: idrac-exporter
+    app.kubernetes.io/instance: idrac-exporter
+spec:
+  endpoints:
+  - interval: 30s
+    metricRelabelings:
+    - separator: ;
+      regex: (.*)
+      action: replace     
+      replacement: xr8ksled1
+      targetLabel: hostname
+    relabelings:
+    - separator: ;
+      regex: (.*)
+      action: replace     
+      replacement: 100.76.41.7
+      targetLabel: instance
+    params:
+      target:
+      - 100.76.41.7
+    port: metrics # Is very important that you use the same name as the port name in Service yaml file
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: idrac-exporter
+  namespaceSelector:
+    matchNames:
+    - idrac-exporter

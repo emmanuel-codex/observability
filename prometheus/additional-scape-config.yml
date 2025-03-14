@@ -1,0 +1,13 @@
+prometheus:
+ prometheusSpec:
+   additionalScrapeConfigs:
+     - job_name: idrac
+       static_configs:
+         - targets: ['100.76.41.7', '100.76.41.8', '100.76.41.16']
+       relabel_configs:
+         - source_labels: [__address__]
+           target_label: __param_target
+         - source_labels: [__param_target]
+           target_label: instance
+         - target_label: __address__
+           replacement: 100.76.121.2:9348
