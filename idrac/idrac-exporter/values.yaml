@@ -95,9 +95,9 @@ idracConfig: |
     sensors: true
     power: true
     events: true
-    storage: true
-    memory: true
+    storage: true                                                                                                                                                                      memory: true
     network: true
+
 
 env: []
 # - name: CONFIG_DEFAULT_USERNAME
@@ -117,13 +117,22 @@ podAnnotations:
 # https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
 # Use {{ tpl "{{ include \"idrac-exporter.fullname\" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.port }}" . }} for the service endpoint
 
+
+
 prometheus:
   monitor:
+    port: metrics
+    path: /metrics
     enabled: true
     additionalLabels: {}
     interval: 15s
     namespace: []
-    metricRelabelings: []
+    metricRelabelings:
+    - action: replace
+      replacement: 10.48.147.105
+      targetLabel: instance
+    target:
+    - 10.48.147.105
     relabelings: []
     targetLabels: []
 
